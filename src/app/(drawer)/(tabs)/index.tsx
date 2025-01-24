@@ -1,7 +1,7 @@
 import { StatusBar, View } from "react-native";
 
 //import Constants from 'expo-constants';
-import { FloatButton, AppInput, MenuButton, OrderList } from "@/components";
+import { FloatButton, AppInputContainer, MenuButton, OrderList } from "@/components";
 
 //const statusBarHeight = Constants.statusBarHeight;
 //style={{ marginTop: statusBarHeight }}
@@ -17,10 +17,10 @@ export default function Index() {
       <StatusBar backgroundColor="#0f172a" barStyle="light-content" />
       {/* <Text className="text-white text-lg font-bold ">João Bebe Água</Text> */}
 
-      <AppInput>
+      <AppInputContainer>
         <MenuButton />
-        <AppInput.Field placeholder="Pesquisar nos pedidos" />
-      </AppInput>
+        <AppInputContainer.InputField placeholder="Pesquisar nos pedidos" />
+      </AppInputContainer>
 
       <OrderList />
       <FloatButton icon="add" label="Novo Pedido" action={() => console.log("clicou no floatButton")} />

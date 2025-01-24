@@ -1,7 +1,7 @@
 import { colors } from "@/styles/colors";
 import { Stack } from "expo-router";
 
-export default function CustomerLayout() {
+export default function ItemLayout() {
     return (
         <Stack screenOptions={{
             headerShown: true,
@@ -10,8 +10,8 @@ export default function CustomerLayout() {
             headerTitleAlign: 'center',
 
         }}>
-            <Stack.Screen name="customer-index" options={{ title: 'Clientes' }} />
-            <Stack.Screen name="customer-form" options={{ title: 'Cliente' }} />
+            <Stack.Screen name="item-index" options={{ title: 'Produtos' }} />
+            <Stack.Screen name="item-form" options={{ title: 'Produto' }} />
 
         </Stack>
     )

@@ -36,7 +36,7 @@ export function ItemDAO() {
             await statement.executeAsync({
                 $id: data.id!,
                 $name: data.name,
-                $quantity: data.price,
+                $price: data.price,
             })
         } catch (error) {
             throw error
@@ -69,7 +69,7 @@ export function ItemDAO() {
 
     async function searchByName(name: string) {
         try {
-            const query = "SELECT * FROM item WHERE name LIKE ?"
+            const query = "SELECT * FROM item WHERE name LIKE ? order by id desc"
 
             const response = await database.getAllAsync<Item>(
                 query,
@@ -82,5 +82,22 @@ export function ItemDAO() {
         }
     }
 
-    return { create, update, deleteById, findById, searchByName }
+    async function existsByName(name: string) {
+        type RowExist = {
+            row_exists: number
+        }
+        try {
+            const query = " SELECT exists(SELECT 1 FROM item WHERE name = ? ) as row_exists"
+
+            const response = await database.getFirstAsync<RowExist>(query, [name,]);
+
+            return response?.row_exists
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+    return { create, update, deleteById, findById, searchByName, existsByName }
 }

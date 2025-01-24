@@ -6,12 +6,19 @@ export function CustomerDAO() {
 
     async function create(data: Omit<Customer, "id">) {
         const statement = await database.prepareAsync(
-            "INSERT INTO customer (name) VALUES ($name)"
+            "INSERT INTO customer (name, city, district, streetName, streetNumber, complement, reference)"
+            + " VALUES ($name, $city, $district, $streetName, $streetNumber, $complement, $reference)"
         )
 
         try {
             const result = await statement.executeAsync({
-                $name: data.name
+                $name: data.name,
+                $city: data.city || "",
+                $district: data.district || "",
+                $streetName: data.streetName || "",
+                $streetNumber: data.streetNumber || "",
+                $complement: data.complement || "",
+                $reference: data.reference || "",
             })
 
             const insertedRowId = result.lastInsertRowId.toLocaleString()
@@ -24,17 +31,30 @@ export function CustomerDAO() {
         }
     }
 
-
-
     async function update(data: Customer) {
         const statement = await database.prepareAsync(
-            "UPDATE cuistomer SET name = $name, city = $city WHERE id = $id"
+            "UPDATE customer SET "
+            + " name = $name,"
+            + " city = $city,"
+            + " district = $district, "
+            + " streetName = $streetName,"
+            + " streetNumber = $streetNumber, "
+            + " complement = $complement,"
+            + " reference = $reference"
+            + " WHERE id = $id"
+
         )
 
         try {
             await statement.executeAsync({
                 $id: data.id!,
-                $name: data.name
+                $name: data.name,
+                $city: data.city || "",
+                $district: data.district || "",
+                $streetName: data.streetName || "",
+                $streetNumber: data.streetNumber || "",
+                $complement: data.complement || "",
+                $reference: data.reference || "",
 
             })
         } catch (error) {
@@ -56,9 +76,7 @@ export function CustomerDAO() {
         try {
             const query = "SELECT * FROM customer WHERE id = ?"
 
-            const response = await database.getFirstAsync<Customer>(query, [
-                id,
-            ])
+            const response = await database.getFirstAsync<Customer>(query, [id,]);
 
             return response
         } catch (error) {
@@ -68,7 +86,7 @@ export function CustomerDAO() {
 
     async function searchByName(name: string) {
         try {
-            const query = "SELECT * FROM customer WHERE name LIKE ?"
+            const query = "SELECT * FROM customer WHERE name LIKE ? order by id desc"
 
             const response = await database.getAllAsync<Customer>(
                 query,
@@ -81,5 +99,21 @@ export function CustomerDAO() {
         }
     }
 
-    return { create, update, deleteById, findById, searchByName }
+    async function existsByName(name: string) {
+        type RowExist = {
+            row_exists: number
+        }
+        try {
+            const query = " SELECT exists(SELECT 1 FROM customer WHERE name = ? ) as row_exists"
+
+            const response = await database.getFirstAsync<RowExist>(query, [name,]);
+
+            return response?.row_exists
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+    return { create, update, deleteById, findById, searchByName, existsByName }
 }

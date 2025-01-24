@@ -10,21 +10,26 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
             price DECIMAL(10,2) NOT NULL
         );
 
+        --DROP TABLE customer;
+        
         CREATE TABLE IF NOT EXISTS customer (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             city TEXT,
+            district TEXT,
             streetName TEXT,
             streetNumber TEXT,
             complement TEXT,
             reference TEXT
         );
 
+       -- DROP TABLE "order";
+
         CREATE TABLE IF NOT EXISTS "order" (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            customer_id INTEGER NOT NULL,
-            customer_name TEXT,
-            delivery_date DATE NOT NULL,
+            customerId INTEGER NOT NULL,
+            customerName TEXT,
+            deliveryDate DATE NOT NULL,
             orderAmount DECIMAL(10,2) NOT NULL,
             city TEXT,
             streetName TEXT,
@@ -33,10 +38,12 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
             reference TEXT
         );
 
+       -- DROP TABLE order_item
+
         CREATE TABLE IF NOT EXISTS order_item (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            order_id INTEGER NOT NULL,
-            item_id INTEGER NOT NULL,
+            orderId INTEGER NOT NULL,
+            itemId INTEGER NOT NULL,
             "index" INTEGER NOT NULL,
             unitPrice DECIMAL(10,2) NOT NULL,
             quantity DECIMAL(10,2) NOT NULL,

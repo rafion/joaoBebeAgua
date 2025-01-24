@@ -29,9 +29,9 @@ export default function TabLayout() {
                     tabBarIcon: ({ size, color }) => (<MaterialIcons name="person" size={size} color={color} />)
                 }} />
             <Tabs.Screen
-                name="item-form"
+                name="items"
                 options={{
-                    title: 'produtos',
+                    title: 'Produtos',
                     headerTitle: 'Produtos',
                     tabBarIcon: ({ size, color }) => (<MaterialIcons name="shopping-cart" size={size} color={color} />)
                 }} />
