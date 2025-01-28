@@ -1,31 +1,41 @@
-import { StatusBar, View } from "react-native";
+import { AppInputContainer, FloatButton, MenuButton, OrderList } from "@/components";
+import Actions from "@/components/order/actions";
+import { router } from "expo-router";
+import { useState } from "react";
+import { StatusBar, Text, View } from "react-native";
 
 //import Constants from 'expo-constants';
-import { FloatButton, AppInputContainer, MenuButton, OrderList } from "@/components";
+
 
 //const statusBarHeight = Constants.statusBarHeight;
 //style={{ marginTop: statusBarHeight }}
 
 export default function Index() {
 
-
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState(true);
 
   return (
 
-
     <View className="flex-1 bg-gray-900 pt-14 p-4" >
       <StatusBar backgroundColor="#0f172a" barStyle="light-content" />
-      {/* <Text className="text-white text-lg font-bold ">João Bebe Água</Text> */}
 
       <AppInputContainer>
         <MenuButton />
-        <AppInputContainer.InputField placeholder="Pesquisar nos pedidos" />
+        <AppInputContainer.InputField placeholder="Pesquisar nos pedidos" onChangeText={setSearch} />
       </AppInputContainer>
 
-      <OrderList />
-      <FloatButton icon="add" label="Novo Pedido" action={() => console.log("clicou no floatButton")} />
+      <Actions filter={true} setFilter={(status) => console.log(status)} />
+      {filterStatus &&
+        (<OrderList searchTerms={search} filterStatus={filterStatus} />)}
 
+      {!filterStatus &&
+        (<OrderList searchTerms={search} filterStatus={filterStatus} />)}
+
+      <FloatButton icon="add" label="Novo Pedido" action={() => router.navigate("/orders/order-customer-select")} />
     </View>
+
+
 
   );
 }

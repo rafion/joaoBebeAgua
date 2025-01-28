@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
 
-import { Customer } from "@/model/customer";
-import { CustomerDAO } from "@/database/customerDAO";
-import { router } from "expo-router";
+//import { useNavigation } from "@react-navigation/native";
+//import { useEffect } from "react";
+import { FlatList, RefreshControl, View } from "react-native"
 import { AppInputContainer, CustomerListItem, FloatButton } from "@/components";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { CustomerDAO } from "@/database/customerDAO";
+import { Customer } from "@/model/customer";
 import { colors } from "@/styles/colors";
 
-//melhorar isso, componentizar pesquisa e botões em uma tela
-
-export default function CustomerIndex() {
+export default function OrderCustomerSelect() {
 
     const curtomerDao = CustomerDAO();
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [search, setSearch] = useState("");
     const [isRefreshing, setRefreshing] = useState(false);
 
-    //carregue a lista aqui
     useEffect(() => {
         list()
     }, [search])
@@ -37,18 +36,9 @@ export default function CustomerIndex() {
         }
     }
 
-    async function remove(id: number) {
-        try {
-            await curtomerDao.deleteById(id)
-            await list()
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
     return (
-        <View className="flex-1 bg-gray-900 pt-14 p-4 gap-4">
+        <View className="flex-1 bg-gray-900 pt-14 p-4 gap-4" >
+
             <AppInputContainer>
                 <AppInputContainer.InputField placeholder="Pesquisar clientes" onChangeText={setSearch} />
             </AppInputContainer>
@@ -63,10 +53,10 @@ export default function CustomerIndex() {
                     ({ item }) =>
                         <CustomerListItem
                             data={item}
-                            selectionMode={false}
-                            onSelect={() => { }}
-                            onDelete={() => remove(item.id!)}
-                            onEdit={() => router.navigate({ pathname: '/customers/customer-form', params: { id: item.id } })}
+                            selectionMode={true}
+                            onSelect={() => { router.navigate({ pathname: '/orders/order-item-select', params: { customerId: item.id, customerName: item.name } }) }}
+                            onDelete={() => { }}
+                            onEdit={() => { }}
                         />
                 }
                 refreshControl={
@@ -76,10 +66,14 @@ export default function CustomerIndex() {
                         tintColor={colors.orange[500]}
                     />}
             />
-            <FloatButton icon="add" label="Novo Cliente" action={() => router.navigate({ pathname: '/customers/customer-form' })} />
+            {/* <FloatButton
+                icon="arrow-circle-right"
+                label="Avançar"
+                position="right"
+                action={() => router.navigate('/orders/order-item-select')}
+            /> */}
+
         </View>
 
-
-
-    );
+    )
 }

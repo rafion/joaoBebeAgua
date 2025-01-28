@@ -22,6 +22,13 @@ export default function TabLayout() {
                     tabBarIcon: ({ size, color }) => (<MaterialIcons name="home" size={size} color={color} />)
                 }} />
             <Tabs.Screen
+                name="orders"
+                options={{
+                    title: 'Pedidos',
+                    headerTitle: 'Pedido',
+                    tabBarIcon: ({ size, color }) => (<MaterialIcons name="app-registration" size={size} color={color} />)
+                }} />
+            <Tabs.Screen
                 name="customers"
                 options={{
                     title: 'Clientes',

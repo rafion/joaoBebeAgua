@@ -1,11 +1,19 @@
 import { Order } from "@/model/order";
 import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { OrderListItem } from "./order-list-item";
 import { OrderItem } from "@/model/orderItem";
 
+interface Props {
+    searchTerms: string;
+    filterStatus: boolean;
+}
 
-export function OrderList() {
+export function OrderList({ searchTerms, filterStatus }: Props) {
+
+    const [search, setSearch] = useState(searchTerms);
+    const [status, setStatus] = useState(filterStatus);
+    const [orders, setOrders] = useState<Order[]>([]);
 
     let orderList: Order[] = [];
     let order1 = new Order({ id: 1, name: "rafa" });
@@ -38,10 +46,12 @@ export function OrderList() {
     order2.reference = "Em frente a loja x38";
     order2.addOrderItem(new OrderItem(1, "Agua 12L", 7.5, 2));
     order2.addOrderItem(new OrderItem(2, "Gás", 115, 1));
-    order2.addOrderItem(new OrderItem(3, "botijão de Gás 15lt", 115, 1))
+    order2.addOrderItem(new OrderItem(3, "botijão de Gás 15lt", 115, 1));
+    order2.status = "CONCLUDED";
     orderList.push(order2);
 
-    const [orders, setOrders] = useState<Order[]>([]);
+
+
 
     useEffect(() => {
         async function getOrders() {
@@ -53,14 +63,17 @@ export function OrderList() {
     }, [])
 
     return (
+        <View className="flex-1 bg-gray-900 pt-4 p-4 gap-4">
 
-        <FlatList
-            data={orders}
-            keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => <OrderListItem order={item} />}
-            horizontal={false}
-            contentContainerStyle={{ gap: 14, paddingLeft: 16, paddingRight: 16 }}
-            showsHorizontalScrollIndicator={false}
-        />
+
+            <FlatList
+                data={orders}
+                keyExtractor={item => String(item.id)}
+                renderItem={({ item }) => <OrderListItem order={item} />}
+                horizontal={false}
+                contentContainerStyle={{ gap: 14, paddingLeft: 16, paddingRight: 16 }}
+                showsHorizontalScrollIndicator={false}
+            />
+        </View>
     );
 }

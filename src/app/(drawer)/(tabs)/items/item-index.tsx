@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 
 
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { AppInputContainer, FloatButton, ItemListItem } from "@/components";
 import { colors } from "@/styles/colors";
 import { ItemDAO } from "@/database/itemDAO";
@@ -11,6 +11,7 @@ import { Item } from "@/model/item";
 
 
 export default function ItemIndex() {
+    const navigation = useNavigation();
 
     const itemDao = ItemDAO();
     const [items, setItems] = useState<Item[]>([]);
@@ -19,9 +20,13 @@ export default function ItemIndex() {
 
     //carregue a lista aqui
     useEffect(() => {
-        list()
-    }, [search])
+        printSteckNavigatio();
+        list();
+    }, [search, navigation])
 
+    function printSteckNavigatio() {
+        console.log("clicou no stack");
+    }
     async function onRefresh() {
         setRefreshing(true);
         await list();
@@ -64,6 +69,8 @@ export default function ItemIndex() {
                     ({ item }) =>
                         <ItemListItem
                             data={item}
+                            selectionMode={false}
+                            onSelect={() => { }}
                             onDelete={() => remove(item.id!)}
                             onEdit={() => router.navigate({ pathname: '/items/item-form', params: { id: item.id } })}
                         />

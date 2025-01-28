@@ -1,79 +1,57 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, Text, View, StyleSheet } from "react-native";
-import { PressableProps } from "react-native-gesture-handler";
+import { Pressable, PressableProps, Text, TouchableOpacity, View } from "react-native";
 
 import { Item } from "@/model/item";
+import { getFormattedCurrency } from "@/utils/format-values";
+import { styles } from "@/styles/styles";
+import { useState } from "react";
 
 type Props = PressableProps & {
     data: Item;
+    selectionMode: boolean;
+    onSelect: () => void
     onDelete: () => void
     onEdit: () => void
 }
 
-export function ItemListItem({ data, onDelete, onEdit, ...rest }: Props) {
+export function ItemListItem({ data, selectionMode, onSelect, onDelete, onEdit, ...rest }: Props) {
 
+    const [selected, setSelected] = useState(false);
 
     return (
-        <View className="w-full flex-row gap-4 rounded-md bg-gray-800">
+        <TouchableOpacity
 
-            <View className="flex-1">
-                <View className="flex-row items-center gap-1">
+            style={{ backgroundColor: selected ? "red" : "transparent" }}
+            onPress={onSelect}>
+            <View className="w-full flex-row gap-4 rounded-md bg-gray-800">
 
-                    <Text className="text-lg font-subtitle text-gray-400 flex-1">
-                        #{data.id} - {data.name}
-                    </Text>
-                    <Text className="text-lg font-subtitle text-gray-400 flex-1">
-                        R$ {data.price}
-                    </Text>
-                </View>
+                <View className="flex-1">
+                    <View className="flex-row items-center gap-1">
 
-                {/* absolute bottom-16 flex flex-row right-0 z-[99] gap-8 */}
-                <View style={styles.buttons}>
-                    <Pressable style={styles.buttonDelete} onPress={onDelete}>
-                        <Ionicons name="trash-outline" size={16} color="#FFF" />
-                    </Pressable>
+                        <Text className="text-lg font-subtitle text-gray-400 flex-1">
+                            #{data.id} - {data.name}
+                        </Text>
+                        <Text className="text-lg font-subtitle text-gray-400 flex-1">
+                            {getFormattedCurrency(data.price)}
+                        </Text>
+                    </View>
 
-                    <Pressable style={styles.buttonComplete}
-                        onPress={onEdit}>
-                        <Ionicons name="create-outline" size={16} color="#FFF" />
-                    </Pressable>
+                    {/* absolute bottom-16 flex flex-row right-0 z-[99] gap-8 */}
+                    <View style={styles.buttons}>
+                        <Pressable style={styles.buttonDelete} onPress={onDelete}>
+                            <Ionicons name="trash-outline" size={16} color="#FFF" />
+                        </Pressable>
+
+                        <Pressable style={styles.buttonEdit}
+                            onPress={onEdit}>
+                            <Ionicons name="create-outline" size={16} color="#FFF" />
+                        </Pressable>
+
+                    </View>
 
                 </View>
 
             </View>
-
-        </View>
-
+        </TouchableOpacity>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#64748b",
-        marginBottom: 30,
-        padding: 14,
-        borderRadius: 4,
-    },
-    text: {
-        fontWeight: "500",
-        color: "#FFF"
-    },
-    buttons: {
-        position: "absolute",
-        bottom: -10,
-        flexDirection: "row",
-        right: 0,
-        zIndex: 99,
-        gap: 8,
-    },
-    buttonDelete: {
-        backgroundColor: "#ef4444",
-        padding: 6,
-        borderRadius: 99,
-    },
-    buttonComplete: {
-        backgroundColor: "#22c55e",
-        padding: 6,
-        borderRadius: 99,
-    }
-})
