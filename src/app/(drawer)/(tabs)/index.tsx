@@ -1,5 +1,6 @@
 import { AppInputContainer, FloatButton, MenuButton, OrderList } from "@/components";
 import Actions from "@/components/order/actions";
+import { OrderStatus } from "@/model/order";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StatusBar, Text, View } from "react-native";
@@ -15,10 +16,10 @@ export default function Index() {
   const { id } = useLocalSearchParams();
 
   const [search, setSearch] = useState("");
-  const [filterStatus, setFilterStatus] = useState(true);
+  const [filterStatus, setFilterStatus] = useState<OrderStatus>(OrderStatus.CONFIRMED);
 
   useEffect(() => {
-    setFilterStatus(true);
+    setFilterStatus(OrderStatus.CONFIRMED);
   }, [id]);
 
   return (
@@ -31,11 +32,11 @@ export default function Index() {
         <AppInputContainer.InputField placeholder="Pesquisar nos pedidos" onChangeText={setSearch} />
       </AppInputContainer>
 
-      <Actions filter={true} setFilter={(status) => console.log(status)} />
-      {filterStatus &&
+      <Actions filter={OrderStatus.CONFIRMED} setFilter={(s) => setFilterStatus(s)} />
+      {(filterStatus == OrderStatus.CONFIRMED) &&
         (<OrderList searchTerms={search} filterStatus={filterStatus} />)}
 
-      {!filterStatus &&
+      {(filterStatus == OrderStatus.CONCLUDED) &&
         (<OrderList searchTerms={search} filterStatus={filterStatus} />)}
 
       <FloatButton icon="add" label="Novo Pedido" action={() => router.navigate("/orders/order-customer-select")} />

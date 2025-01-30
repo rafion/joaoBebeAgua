@@ -1,26 +1,53 @@
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 import { FloatButton } from "@/components";
 import { Order } from "@/model/order";
 import { getFormattedCurrency } from "@/utils/format-values";
-import { MaterialIcons } from "@expo/vector-icons";
-import { colors } from "@/styles/colors";
+
 import { OrderItem } from "@/model/orderItem";
+import { OrderDAO } from "@/database/orderDAO";
 
 export default function OrderForm() {
-    //const { id } = useLocalSearchParams();
+
+    const { orderId } = useLocalSearchParams();
     const nav = useNavigation<any>();
     const [order, setOrder] = useState<Order>();
+
+    const orderDao = OrderDAO();
 
     useEffect(() => {
         nav.setOptions({ headerShown: true, headerTitle: 'Detalhes do pedido' });
         setOrderFroAsyncStorage();
     }, [nav]);
 
-    function onSave() {
-        console.log("salve a order")
+
+    function onSubmit() {
+        if (order?.id) {
+            update()
+        } else {
+            create()
+        }
+    }
+
+    async function create() {
+        console.log("salve");
+
+        try {
+            const response = await orderDao.create(order!);
+            Alert.alert("Pedido cadastrado com o ID: " + response.insertedRowId);
+
+            router.navigate({ pathname: '/(drawer)/(tabs)', params: { refresh: 1 } })
+        } catch (error) {
+            console.error(error)
+        }
+
+
+    }
+
+    function update() {
+        console.log("update");
     }
 
     async function setOrderFroAsyncStorage() {
@@ -80,10 +107,7 @@ export default function OrderForm() {
                 icon="save"
                 label="Salvar"
                 position="right"
-                action={() => {
-                    onSave();
-                    router.navigate({ pathname: '/(drawer)/(tabs)', params: { refresh: 1 } });
-                }} />
+                action={() => onSubmit()} />
 
 
 

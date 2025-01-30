@@ -7,7 +7,7 @@ import { ItemDAO } from "@/database/itemDAO";
 import { Item } from "@/model/item";
 import { colors } from "@/styles/colors";
 import { OrderItem } from "@/model/orderItem";
-import { Order } from "@/model/order";
+import { Order, OrderStatus } from "@/model/order";
 import { CustomerDAO } from "@/database/customerDAO";
 import { Customer } from "@/model/customer";
 

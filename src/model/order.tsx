@@ -5,7 +5,7 @@ export class Order {
     id?: number;
     customerId?: number | null;
     customerName: string = "";
-    status: 'PLACED' | 'CONFIRMED' | 'DISPATCHED' | 'CONCLUDED' | 'CANCELLED' = 'CONFIRMED';
+    status: OrderStatus = OrderStatus.CONFIRMED;
     deliveryDate?: Date = new Date();
     orderAmount: number = 0;
     city?: string = "";
@@ -16,15 +16,17 @@ export class Order {
     items: OrderItem[] = [];
 
 
-    constructor(customer: Customer) {
-        this.customerId = customer.id;
-        this.customerName = (this.customerName == "" ? customer.name : this.customerName);
-
-        this.city = customer.city;
-        this.streetName = customer.streetName;
-        this.complement = customer.complement;
-        this.reference = customer.reference;
+    constructor(customer?: Customer) {
+        this.customerId = customer?.id;
+        this.customerName = (this.customerName == "" ? customer?.name : this.customerName)!;
+        this.status = OrderStatus.CONFIRMED;
+        this.city = customer?.city;
+        this.streetName = customer?.streetName;
+        this.complement = customer?.complement;
+        this.reference = customer?.reference;
         this.orderAmount = 0;
+        this.deliveryDate = new Date();
+        this.items = [];
 
     }
 
@@ -48,28 +50,34 @@ export class Order {
     }
 
     calcTotalAmount() {
-        console.log('calcTotalAmount')
         this.items.forEach(item => item.calcTotalPrice());
         this.orderAmount = this.items
             .map(item => item.price)
             .reduce((acc, price) => acc + price);
-        console.log("total:" + this.orderAmount);
     }
 
     dispatch() {
-        this.status = "DISPATCHED";
+        this.status = OrderStatus.DISPATCHED;
     }
 
     conclude() {
-        this.status = "CONCLUDED";
+        this.status = OrderStatus.CONCLUDED;
     }
 
     cancel() {
-        this.status = "CANCELLED";
+        this.status = OrderStatus.CANCELLED;
     }
 
     toString() {
         return "ID: " + this.id + ", Cliente: " + this.customerName + ", Total: " + this.orderAmount;
     }
 
+}
+
+export enum OrderStatus {
+    PLACED = "PLACED",
+    CONFIRMED = "CONFIRMED",
+    DISPATCHED = "DISPATCHED",
+    CONCLUDED = "CONCLUDED",
+    CANCELLED = "CANCELLED"
 }

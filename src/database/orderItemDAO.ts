@@ -6,16 +6,16 @@ export function OrderITemDAO() {
 
     async function create(data: Omit<OrderItem, "id">) {
         const statement = await database.prepareAsync(
-            "INSERT INTO item (order_id, item_id, index, unit_price, quantity, price)"
-            + "VALUES ($order_id, $item_id, $index, $unit_price, $quantity, $price)"
+            "INSERT INTO order_item (orderId, itemId, `index`, unitPrice, quantity, price)"
+            + "VALUES ($orderId, $itemId, $index, $unitPrice, $quantity, $price)"
         )
 
         try {
             const result = await statement.executeAsync({
-                $order_id: data.orderId!,
-                $item_id: data.itemId!,
+                $orderId: data.orderId!,
+                $itemId: data.itemId!,
                 $index: data.index!,
-                $unit_price: data.unitPrice,
+                $unitPrice: data.unitPrice,
                 $quantity: data.quantity,
                 $price: data.price
 
@@ -31,6 +31,37 @@ export function OrderITemDAO() {
         }
     }
 
-    return { create }
+
+    async function findById(id: number) {
+        try {
+            const query = "SELECT * FROM order_item WHERE id = ?"
+
+            const response = await database.getFirstAsync<OrderItem>(query, [
+                id,
+            ])
+
+            return response
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async function findAllByOrderId(orderId: number) {
+        try {
+            const query = "SELECT * FROM order_tem WHERE orderId = ? order by id asc"
+
+            const response = await database.getAllAsync<OrderItem>(
+                query,
+                orderId
+            )
+
+            return response
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+    return { create, findById, findAllByOrderId }
 
 }
