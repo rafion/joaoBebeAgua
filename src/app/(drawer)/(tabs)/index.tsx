@@ -1,7 +1,7 @@
 import { AppInputContainer, FloatButton, MenuButton, OrderList } from "@/components";
 import Actions from "@/components/order/actions";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { StatusBar, Text, View } from "react-native";
 
 //import Constants from 'expo-constants';
@@ -12,8 +12,14 @@ import { StatusBar, Text, View } from "react-native";
 
 export default function Index() {
 
+  const { id } = useLocalSearchParams();
+
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState(true);
+
+  useEffect(() => {
+    setFilterStatus(true);
+  }, [id]);
 
   return (
 

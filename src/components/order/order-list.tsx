@@ -1,8 +1,8 @@
 import { Order } from "@/model/order";
 import { useEffect, useState } from "react";
-import { FlatList, Pressable, Text, View } from "react-native";
-import { OrderListItem } from "./order-list-item";
+import { FlatList, View } from "react-native";
 import { OrderItem } from "@/model/orderItem";
+import { OrderCard } from "./order-card";
 
 interface Props {
     searchTerms: string;
@@ -69,7 +69,7 @@ export function OrderList({ searchTerms, filterStatus }: Props) {
             <FlatList
                 data={orders}
                 keyExtractor={item => String(item.id)}
-                renderItem={({ item }) => <OrderListItem order={item} />}
+                renderItem={({ item }) => <OrderCard order={item} />}
                 horizontal={false}
                 contentContainerStyle={{ gap: 14, paddingLeft: 16, paddingRight: 16 }}
                 showsHorizontalScrollIndicator={false}

@@ -11,7 +11,6 @@ import { Item } from "@/model/item";
 
 
 export default function ItemIndex() {
-    const navigation = useNavigation();
 
     const itemDao = ItemDAO();
     const [items, setItems] = useState<Item[]>([]);
@@ -20,13 +19,11 @@ export default function ItemIndex() {
 
     //carregue a lista aqui
     useEffect(() => {
-        printSteckNavigatio();
-        list();
-    }, [search, navigation])
 
-    function printSteckNavigatio() {
-        console.log("clicou no stack");
-    }
+        list();
+    }, [search])
+
+
     async function onRefresh() {
         setRefreshing(true);
         await list();

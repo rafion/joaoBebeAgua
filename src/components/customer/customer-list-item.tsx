@@ -30,7 +30,8 @@ export function CustomerListItem({ data, selectionMode, onSelect, onDelete, onEd
     return (
         <TouchableOpacity
 
-            style={{ backgroundColor: selected ? "red" : "transparent" }}
+            style={{ backgroundColor: selected ? "#5E4D4E" : "transparent" }}
+            onFocus={() => setSelected(true)}
             onPress={onSelect}>
             <View className="w-full flex-row gap-4 rounded-md bg-gray-800">
 

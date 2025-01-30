@@ -1,66 +1,63 @@
-import { Order } from "@/model/order";
-import { styles } from "@/styles/styles";
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, Text, View, StyleSheet } from "react-native";
+import { Pressable, PressableProps, Text, View } from "react-native";
+import { getFormattedCurrency } from "@/utils/format-values";
+import { useState } from "react";
+import { Item } from "@/model/item";
 
 
-const timeformat: Intl.DateTimeFormatOptions = {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour12: false
-} as const;
 
-export function OrderListItem({ order }: { order: Order }) {
+type Props = PressableProps & {
+    data: Item;
+    value: number;
+    onChangeQuantity: (quantity: number) => void;
+}
 
-    async function handleDeleteTask() {
-        console.log("clicou no delete");
-    }
+export function OrderListItem({ data, value, onChangeQuantity, ...rest }: Props) {
 
-    async function handleUpdateStatus() {
-        console.log("clicou no update");
+    const [quantity, setQuantity] = useState(value);
+
+    function quantityUpdate(qty: number) {
+        let value = (qty) > 0 ? qty : 0;
+        setQuantity(value);
+        onChangeQuantity(value);
+
     }
 
     return (
-        <View className="w-full flex-row gap-4 rounded-md">
 
-            <View className="flex-1">
-                <View className="flex-row items-center gap-1">
+        <View className="w-full flex-row gap-2 ">
+
+            <View className="flex-1 border bg-gray-800 border-orange-500 rounded-md h-24 mb-4">
+                <View className="flex-row p-2 items-center gap-1">
 
                     <Text className="text-lg font-subtitle text-gray-400 flex-1">
-                        {order.customerName}
+                        #{data.id} - {data.name}
                     </Text>
-                    <Text className="text-sm font-body text-gray-400" numberOfLines={1} lineBreakMode="tail">
-                        {order.deliveryDate?.toLocaleTimeString('pt-BR', timeformat)}
-                        {/* 12 de fev. as 13:36h */}
+                    <Text className="text-lg font-subtitle text-gray-400 flex-1">
+                        {getFormattedCurrency(data.price)}
                     </Text>
-
                 </View>
-
-                <Text className="text-base font-body text-gray-400">
-                    Endereço: {(order.streetName || "") + ", " + (order.streetNumber || "")}
-                </Text>
-                <Text className="text-base font-body text-gray-400" numberOfLines={1} lineBreakMode="tail">
-                    Produtos: {order.items.map(item => (item.itemName) + ' R$ ' + (item.unitPrice) + ' x ' + (item.quantity)).join(', ')}
-                </Text>
-
-
-                <Text className="text-lg font-subtitle text-gray-400">Total: R$ {order.orderAmount}</Text>
 
                 {/* absolute bottom-16 flex flex-row right-0 z-[99] gap-8 */}
-                <View style={styles.buttons}>
-                    <Pressable style={styles.buttonDelete} onPress={handleDeleteTask}>
-                        <Ionicons name="trash-outline" size={16} color="#FFF" />
+                <View className="flex-row items-center absolute z-50 -bottom-0 right-2 gap-8 ">
+
+                    <Pressable className="bg-red-500 p-3 rounded-full"
+                        onPress={() => quantityUpdate(quantity - 1)}>
+                        <Ionicons name="remove-outline" size={16} color="#FFF" />
+                    </Pressable>
+
+                    <Text className="text-gray-400 text-lg font-bold">{quantity}</Text>
+
+                    <Pressable className="bg-green-500 p-3 rounded-full" onPress={() => { quantityUpdate(quantity + 1) }}>
+                        <Ionicons name="add" size={16} color="#FFF" />
                     </Pressable>
 
 
-                    <Pressable style={styles.buttonComplete} onPress={handleUpdateStatus}>
-                        <Ionicons name="checkmark-outline" size={16} color="#FFF" />
-                    </Pressable>
 
                 </View>
+
             </View>
+
         </View>
 
     )

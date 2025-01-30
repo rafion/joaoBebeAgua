@@ -12,6 +12,7 @@ export default function OrderLayout() {
         }}>
             <Stack.Screen name="order-customer-select" options={{ title: 'Selecione o cliente' }} />
             <Stack.Screen name="order-item-select" options={{ title: 'Selecione os itens' }} />
+
         </Stack>
     )
 }

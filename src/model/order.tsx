@@ -24,6 +24,7 @@ export class Order {
         this.streetName = customer.streetName;
         this.complement = customer.complement;
         this.reference = customer.reference;
+        this.orderAmount = 0;
 
     }
 
@@ -36,6 +37,7 @@ export class Order {
         orderItem.index = this.items.length + 1;
         orderItem.calcTotalPrice();
         this.items.push(orderItem);
+        this.calcTotalAmount();
     }
 
     removeOrderItem(index: number) {
@@ -45,11 +47,13 @@ export class Order {
 
     }
 
-    private calcTotal() {
+    calcTotalAmount() {
+        console.log('calcTotalAmount')
         this.items.forEach(item => item.calcTotalPrice());
         this.orderAmount = this.items
             .map(item => item.price)
             .reduce((acc, price) => acc + price);
+        console.log("total:" + this.orderAmount);
     }
 
     dispatch() {
