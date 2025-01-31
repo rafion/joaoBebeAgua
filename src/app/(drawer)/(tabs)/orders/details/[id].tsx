@@ -86,7 +86,7 @@ export default function OrderForm() {
                 showsHorizontalScrollIndicator={false}
                 renderItem={
                     ({ item }) =>
-                        <View className="bg-gray-600 rounded-md pt-4 p-4 gap-4">
+                        <View className="bg-gray-800 rounded-md pt-4 p-4 gap-4">
                             <Text className="text-lg font-subtitle text-gray-400" numberOfLines={3}>
                                 #{item.index} - {item.itemName}
                             </Text>

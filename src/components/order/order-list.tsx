@@ -1,6 +1,6 @@
 import { Order, OrderStatus } from "@/model/order";
 import { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { Alert, FlatList, View } from "react-native";
 import { OrderItem } from "@/model/orderItem";
 import { OrderCard } from "./order-card";
 import { OrderDAO } from "@/database/orderDAO";
@@ -36,6 +36,38 @@ export function OrderList() {
         }
     }
 
+    async function conclude(orderId: number) {
+        try {
+            const response = await orderDao.conclude(orderId);
+            Alert.alert("Pedido concluido!")
+            list();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function onCancel(order: Order) {
+        Alert.alert(
+            'Deseja cancelar este pedido? n° ' + order.id,
+            'cliente: ' + order.customerName,
+            [
+                { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: 'OK', onPress: () => cancel(order.id!) },
+            ],
+            { cancelable: false }
+        )
+    }
+
+    async function cancel(orderId: number) {
+        try {
+            const response = await orderDao.cancel(orderId);
+
+            list();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return (
         <View className="flex-1 bg-gray-900 pt-4 p-4 gap-4">
@@ -53,8 +85,8 @@ export function OrderList() {
                 renderItem={({ item }) =>
                     <OrderCard
                         order={item}
-                        onConfirm={() => console.log("confirm")}
-                        onCancel={() => console.log("cancel")}
+                        onConclude={() => conclude(item.id!)}
+                        onCancel={() => onCancel(item!)}
                     />}
                 horizontal={false}
                 contentContainerStyle={{ gap: 14, paddingLeft: 16, paddingRight: 16 }}

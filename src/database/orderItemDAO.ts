@@ -48,7 +48,7 @@ export function OrderITemDAO() {
 
     async function findAllByOrderId(orderId: number) {
         try {
-            const query = "SELECT * FROM order_tem WHERE orderId = ? order by id asc"
+            const query = "SELECT * FROM order_item WHERE orderId = ? order by `index` asc"
 
             const response = await database.getAllAsync<OrderItem>(
                 query,

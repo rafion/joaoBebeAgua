@@ -16,7 +16,7 @@ export function OrderFilterButtons({ filter, setFilter }: Props) {
     }
 
     return (
-        <View className="flex-row items-center mt-2 justify-center gap-4">
+        <View className="flex-row items-center mt-2 justify-center gap-2">
 
             <Pressable className={`${status === OrderStatus.CONFIRMED ? 'bg-orange-500' : ''} p-4 rounded-md`}
                 onPress={() => handleAction(OrderStatus.CONFIRMED)}>
@@ -26,6 +26,11 @@ export function OrderFilterButtons({ filter, setFilter }: Props) {
             <Pressable className={`${status === OrderStatus.CONCLUDED ? 'bg-orange-500' : ''} p-4 rounded-md`}
                 onPress={() => handleAction(OrderStatus.CONCLUDED)}>
                 <Text className="text-white">FINALIZADOS</Text>
+            </Pressable>
+
+            <Pressable className={`${status === OrderStatus.CANCELLED ? 'bg-orange-500' : ''} p-4 rounded-md`}
+                onPress={() => handleAction(OrderStatus.CANCELLED)}>
+                <Text className="text-white">CANCELADOS</Text>
             </Pressable>
 
         </View>

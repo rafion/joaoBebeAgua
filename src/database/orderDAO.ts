@@ -1,6 +1,7 @@
 import { Order, OrderStatus } from "@/model/order";
 import { useSQLiteContext } from "expo-sqlite"
 import { OrderITemDAO } from "./orderItemDAO";
+import { OrderItem } from "@/model/orderItem";
 
 
 
@@ -35,10 +36,9 @@ export function OrderDAO() {
             //coloquei o id da order e insira os itens
             data.items.forEach(item => {
                 item.orderId = +insertedRowId;
-                orderItemDAO.create(item)
+                createItem(item)
             }
             );
-
 
             return { insertedRowId }
         } catch (error) {
@@ -48,6 +48,33 @@ export function OrderDAO() {
         }
     }
 
+    async function createItem(data: Omit<OrderItem, "id">) {
+        const statement = await database.prepareAsync(
+            "INSERT INTO order_item (orderId, itemId, `index`, itemName, unitPrice, quantity, price)"
+            + "VALUES ($orderId, $itemId, $index, $itemName, $unitPrice, $quantity, $price)"
+        )
+
+        try {
+            const result = await statement.executeAsync({
+                $orderId: data.orderId!,
+                $itemId: data.itemId!,
+                $index: data.index!,
+                $itemName: data.itemName,
+                $unitPrice: data.unitPrice,
+                $quantity: data.quantity,
+                $price: data.price
+
+            })
+
+            const insertedRowId = result.lastInsertRowId.toLocaleString()
+
+            return { insertedRowId }
+        } catch (error) {
+            throw error
+        } finally {
+            await statement.finalizeAsync()
+        }
+    }
 
 
     async function update(data: Order) {
@@ -112,13 +139,23 @@ export function OrderDAO() {
 
     async function searchByCustomerNameAndStatus(customerName: string, status: OrderStatus) {
 
+        let orders: Order[] = [];
+
         try {
-            const query = "SELECT * FROM `order` WHERE customerName LIKE ? and status = ? order by id desc"
+            const queryOrders = "SELECT * FROM `order` WHERE customerName LIKE ? and status = ? order by id desc"
 
-            const response = await database.getAllAsync<Order>(
-                query, [`%${customerName}%`, status])
+            const responseOrders = await database.getAllAsync<Order>(
+                queryOrders, [`%${customerName}%`, status])
 
-            return response
+
+            for (let order of responseOrders) {
+                const queryItens = "SELECT * FROM order_item WHERE orderId = ? order by `index` asc"
+                const responseItens = await database.getAllAsync<OrderItem>(queryItens, order.id!);
+                order.items = responseItens;
+                orders.push(order);
+            }
+            return orders;
+
         } catch (error) {
             throw error
         }

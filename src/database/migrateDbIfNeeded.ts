@@ -39,12 +39,13 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
             reference TEXT
         );
 
-       -- DROP TABLE order_item
+       -- DROP TABLE order_item;
 
         CREATE TABLE IF NOT EXISTS order_item (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             orderId INTEGER NOT NULL,
             itemId INTEGER NOT NULL,
+            itemName TEXT,
             "index" INTEGER NOT NULL,
             unitPrice DECIMAL(10,2) NOT NULL,
             quantity DECIMAL(10,2) NOT NULL,

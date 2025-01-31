@@ -1,4 +1,4 @@
-import { FlatList, RefreshControl, Text, View } from "react-native"
+import { Alert, FlatList, RefreshControl, Text, View } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -44,6 +44,22 @@ export default function OrderItemSelect() {
             orderItens.forEach(item => order.addOrderItem(item));
         }
         order.calcTotalAmount();
+    }
+
+    function onStoreOrder() {
+        if (orderItens.length == 0) {
+            Alert.alert(
+                'Nenhum item selecionado!',
+                '',
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false }
+            )
+        }
+        else {
+            storeOrder()
+        }
     }
 
     async function storeOrder() {
@@ -127,7 +143,7 @@ export default function OrderItemSelect() {
                 icon="arrow-circle-right"
                 label="Avançar"
                 position="right"
-                action={() => { console.log("store"), storeOrder() }} />
+                action={() => { console.log("store"), onStoreOrder() }} />
 
         </View>
 
