@@ -6,7 +6,7 @@ interface Props {
     filter: OrderStatus;
     setFilter: (status: OrderStatus) => void;
 }
-export default function Actions({ filter, setFilter }: Props) {
+export function OrderFilterButtons({ filter, setFilter }: Props) {
 
     const [status, setStatus] = useState(filter);
 

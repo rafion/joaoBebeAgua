@@ -56,7 +56,7 @@ export default function OrderItemSelect() {
 
             router.push('/orders/details/[id]');
         } catch (error) {
-            console.error(error) // Error saving data
+            console.error(error)
         }
 
     }

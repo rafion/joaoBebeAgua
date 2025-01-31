@@ -111,7 +111,7 @@ export function OrderDAO() {
     }
 
     async function searchByCustomerNameAndStatus(customerName: string, status: OrderStatus) {
-        console.log("consulta");
+
         try {
             const query = "SELECT * FROM `order` WHERE customerName LIKE ? and status = ? order by id desc"
 

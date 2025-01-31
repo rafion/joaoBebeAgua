@@ -1,4 +1,5 @@
-import { Order } from "@/model/order";
+import { Order, OrderStatus } from "@/model/order";
+import { OrderItem } from "@/model/orderItem";
 import { styles } from "@/styles/styles";
 import { getFormattedCurrency } from "@/utils/format-values";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,6 +27,14 @@ export function OrderCard({ order, onConfirm, onCancel }: Props) {
         return new Date(date).toLocaleTimeString('pt-BR', timeformat);
     }
 
+    function printOrderItens(orderItems: OrderItem[]) {
+        if (orderItems) {
+            return "Produtos: " + orderItems.map(item => (item.itemName) + ' R$ ' + (item.unitPrice) + ' x ' + (item.quantity)).join(', ');
+        } else
+            return "";
+
+    }
+
     return (
         <View className="w-full flex-row gap-4 rounded-md">
 
@@ -46,9 +55,9 @@ export function OrderCard({ order, onConfirm, onCancel }: Props) {
                 <Text className="text-base font-body text-gray-400">
                     Endereço: {(order.streetName || "") + ", " + (order.streetNumber || "")}
                 </Text>
-                {/* <Text className="text-base font-body text-gray-400" numberOfLines={1} lineBreakMode="tail">
-                    Produtos: {order.items.map(item => (item.itemName) + ' R$ ' + (item.unitPrice) + ' x ' + (item.quantity)).join(', ')}
-                </Text> */}
+                {order.items && <Text className="text-base font-body text-gray-400" numberOfLines={1} lineBreakMode="tail">
+                    {printOrderItens(order.items)}
+                </Text>}
 
 
                 <Text className="text-lg font-subtitle text-gray-400">Total: {getFormattedCurrency(order.orderAmount)}</Text>

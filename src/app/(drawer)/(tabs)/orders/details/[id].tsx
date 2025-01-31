@@ -19,7 +19,7 @@ export default function OrderForm() {
 
     useEffect(() => {
         nav.setOptions({ headerShown: true, headerTitle: 'Detalhes do pedido' });
-        setOrderFroAsyncStorage();
+        setOrderFromAsyncStorage();
     }, [nav]);
 
 
@@ -32,13 +32,12 @@ export default function OrderForm() {
     }
 
     async function create() {
-        console.log("salve");
 
         try {
             const response = await orderDao.create(order!);
             Alert.alert("Pedido cadastrado com o ID: " + response.insertedRowId);
 
-            router.navigate({ pathname: '/(drawer)/(tabs)', params: { refresh: 1 } })
+            router.navigate({ pathname: '/(drawer)/(tabs)', params: { refresh: "1" } })
         } catch (error) {
             console.error(error)
         }
@@ -50,7 +49,7 @@ export default function OrderForm() {
         console.log("update");
     }
 
-    async function setOrderFroAsyncStorage() {
+    async function setOrderFromAsyncStorage() {
         try {
             const jsonValue = await AsyncStorage.getItem('order');
             if (jsonValue != null) {
