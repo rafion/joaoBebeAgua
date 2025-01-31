@@ -68,6 +68,28 @@ export function OrderList() {
         }
     }
 
+    async function onDelete(order: Order) {
+        Alert.alert(
+            'Deseja remover definitivamente este pedido? n° ' + order.id,
+            'cliente: ' + order.customerName,
+            [
+                { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                { text: 'OK', onPress: () => remove(order!) },
+            ],
+            { cancelable: false }
+        )
+    }
+
+    async function remove(order: Order) {
+        try {
+            const response = await orderDao.deleteById(order.id!);
+
+            list();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return (
         <View className="flex-1 bg-gray-900 pt-4 p-4 gap-4">
@@ -87,6 +109,7 @@ export function OrderList() {
                         order={item}
                         onConclude={() => conclude(item.id!)}
                         onCancel={() => onCancel(item!)}
+                        onDelete={() => onDelete(item!)}
                     />}
                 horizontal={false}
                 contentContainerStyle={{ gap: 14, paddingLeft: 16, paddingRight: 16 }}

@@ -112,8 +112,8 @@ export function OrderDAO() {
 
     async function deleteById(orderId: number) {
         try {
-            await database.execAsync("DELETE FROM order_item WHERE id = " + orderId);
-            await database.execAsync("DELETE FROM order WHERE id = " + orderId);
+            await database.execAsync("DELETE FROM order_item WHERE orderId = " + orderId);
+            await database.execAsync("DELETE FROM `order` WHERE id = " + orderId);
         } catch (error) {
             throw error
         }

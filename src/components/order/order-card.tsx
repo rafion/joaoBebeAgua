@@ -18,9 +18,10 @@ interface Props {
     order: Order;
     onConclude: () => void;
     onCancel: () => void;
+    onDelete: () => void;
 }
 
-export function OrderCard({ order, onConclude, onCancel }: Props) {
+export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
 
 
     function printDate(date: Date) {
@@ -77,8 +78,8 @@ export function OrderCard({ order, onConclude, onCancel }: Props) {
                     </Text>)
                 } */}
                 <View>
-                    {order.items.map(item => (
-                        <Text className="ml-4 text-lg font-subtitle text-gray-400">
+                    {order.items.map((item, index) => (
+                        <Text key={index} className="ml-4 text-lg font-subtitle text-gray-400">
                             x {item.quantity}, {item.itemName}, R$ {item.unitPrice}, Total: {item.price}
                         </Text>
                     ))}
@@ -102,6 +103,12 @@ export function OrderCard({ order, onConclude, onCancel }: Props) {
                     {!isConcluded() && !isCanceled() && (
                         <Pressable className="bg-green-500 p-3 rounded-full" onPress={onConclude}>
                             <Ionicons name="checkmark-outline" size={16} color="#FFF" />
+                        </Pressable>
+                    )}
+
+                    {isCanceled() && (
+                        <Pressable className="bg-red-500 p-3 rounded-full" onPress={onDelete}>
+                            <Ionicons name="close-circle-outline" size={16} color="#FFF" />
                         </Pressable>
                     )}
 
