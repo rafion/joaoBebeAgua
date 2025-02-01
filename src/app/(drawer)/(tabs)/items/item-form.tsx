@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Button, KeyboardAvoidingView, Platform, ScrollView, Text, View, StyleSheet } from "react-native";
 import { TextInputMask } from 'react-native-masked-text';
@@ -74,7 +74,7 @@ export default function ItemForm() {
 
             setId(response.insertedRowId);
             Alert.alert("produto cadastrado com o ID: " + response.insertedRowId)
-
+            router.navigate({ pathname: '/items/item-index', params: { refresh: "1" } })
         } catch (error) {
             console.log(error)
         }

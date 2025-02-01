@@ -2,7 +2,7 @@ import { AppInputContainer } from "@/components";
 import { CustomerDAO } from "@/database/customerDAO";
 import { Customer } from "@/model/customer";
 import { colors } from "@/styles/colors";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Button, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 
@@ -84,7 +84,7 @@ export default function CustomerForm() {
 
             setId(response.insertedRowId);
             Alert.alert("Cliente cadastrado com o ID: " + response.insertedRowId)
-
+            router.navigate({ pathname: '/customers/customer-index', params: { refresh: "1" } })
         } catch (error) {
             console.log(error)
         }
@@ -102,6 +102,8 @@ export default function CustomerForm() {
                 id: Number(id), name, city, district, streetName, streetNumber, complement, reference
             })
             Alert.alert("Cliente atualizado!")
+
+            router.navigate({ pathname: '/customers/customer-index', params: { refresh: "1" } })
         } catch (error) {
             console.log(error)
         }
