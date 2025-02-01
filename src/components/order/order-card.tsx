@@ -38,6 +38,14 @@ export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
 
     }
 
+    function printAddress() {
+        return ((order.streetName != "") ? order.streetName : "")
+            + ((order.streetNumber != "") ? (", " + order.streetNumber) : "")
+            + ((order.complement != "") ? (", " + order.complement) : "")
+            + ((order.reference != "") ? (", ref.: " + order.reference) : "");
+
+    }
+
     function isConfirmed() {
         return order.status == OrderStatus.CONFIRMED
     }
@@ -70,8 +78,11 @@ export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
                 </Text>
 
                 <Text className="text-lg font-subtitle text-gray-400">
-                    Endereço: {(order.streetName || "") + ", " + (order.streetNumber || "")}
+                    Endereço: {printAddress()}
                 </Text>
+                {order.city &&
+                    <Text className="text-base font-body text-gray-400">Cidade: {order.city}</Text>
+                }
                 {/* {order.items && (
                     <Text className="text-base font-body text-gray-400" numberOfLines={3} lineBreakMode="tail">
                         {printOrderItens(order)}
@@ -84,8 +95,6 @@ export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
                         </Text>
                     ))}
                 </View>
-
-
 
                 <Text className="text-2xl font-subtitle text-gray-400">
                     Total: {getFormattedCurrency(order.orderAmount)}
