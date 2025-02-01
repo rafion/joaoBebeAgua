@@ -24,6 +24,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="orders"
                 options={{
+                    href: null,
                     title: 'Pedidos',
                     headerTitle: 'Pedido',
                     tabBarIcon: ({ size, color }) => (<MaterialIcons name="app-registration" size={size} color={color} />)
