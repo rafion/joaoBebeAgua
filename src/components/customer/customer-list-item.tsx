@@ -19,7 +19,7 @@ export function CustomerListItem({ data, selectionMode, onSelect, onDelete, onEd
 
     function printAddress() {
         return ((data.streetName != "") ? data.streetName : "")
-            + ((data.streetNumber != "") ? (", : " + data.streetNumber) : "")
+            + ((data.streetNumber != "") ? (", " + data.streetNumber) : "")
             + ((data.complement != "") ? (", " + data.complement) : "")
             + ((data.reference != "") ? (", ref.: " + data.reference) : "");
 
