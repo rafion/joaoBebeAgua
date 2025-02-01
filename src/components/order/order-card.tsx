@@ -91,7 +91,7 @@ export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
                 <View>
                     {order.items.map((item, index) => (
                         <Text key={index} className="ml-4 text-lg font-subtitle text-gray-400">
-                            x {item.quantity}, {item.itemName}, R$ {item.unitPrice}, Total: {item.price}
+                            x {item.quantity}, {item.itemName},  {getFormattedCurrency(item.unitPrice)}, Total: {getFormattedCurrency(item.price)}
                         </Text>
                     ))}
                 </View>
