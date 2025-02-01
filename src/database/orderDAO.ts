@@ -14,8 +14,8 @@ export function OrderDAO() {
 
         const statement = await database.prepareAsync(
             "INSERT INTO `order` ("
-            + " customerId, customerName, status, orderAmount, city, streetName, complement, reference)"
-            + " VALUES ($customerId, $customerName, $status, $orderAmount, $city, $streetName, $complement, $reference)"
+            + " customerId, customerName, status, orderAmount, city, streetNumber, streetName, complement, reference)"
+            + " VALUES ($customerId, $customerName, $status, $orderAmount, $city, $streetNumber, $streetName, $complement, $reference)"
         )
 
         try {
@@ -25,6 +25,7 @@ export function OrderDAO() {
                 $status: data.status || "",
                 $orderAmount: data.orderAmount || 0,
                 $city: data.city || "",
+                $streetNumber: data.streetNumber || "",
                 $streetName: data.streetName || "",
                 $complement: data.complement || "",
                 $reference: data.reference || "",
