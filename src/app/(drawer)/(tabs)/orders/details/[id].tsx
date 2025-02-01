@@ -37,7 +37,7 @@ export default function OrderForm() {
             const response = await orderDao.create(order!);
             Alert.alert("Pedido cadastrado com o ID: " + response.insertedRowId);
 
-            router.navigate({ pathname: '/(drawer)/(tabs)', params: { refresh: "1" } })
+            router.replace({ pathname: '/', params: { refresh: "1" } })
         } catch (error) {
             console.error(error)
         }
