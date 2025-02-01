@@ -6,7 +6,7 @@ export function OrderITemDAO() {
 
     async function create(data: Omit<OrderItem, "id">) {
         const statement = await database.prepareAsync(
-            "INSERT INTO order_item (orderId, itemId, `index`, unitPrice, quantity, price)"
+            "INSERT INTO order_item (orderId, itemId, `index`,itemName, unitPrice, quantity, price)"
             + "VALUES ($orderId, $itemId, $index, $unitPrice, $quantity, $price)"
         )
 
@@ -15,6 +15,7 @@ export function OrderITemDAO() {
                 $orderId: data.orderId!,
                 $itemId: data.itemId!,
                 $index: data.index!,
+                $itemName: data.itemName,
                 $unitPrice: data.unitPrice,
                 $quantity: data.quantity,
                 $price: data.price
