@@ -22,6 +22,7 @@ export class Order {
         this.status = OrderStatus.CONFIRMED;
         this.city = customer?.city;
         this.streetName = customer?.streetName;
+        this.streetNumber = customer?.streetNumber;
         this.complement = customer?.complement;
         this.reference = customer?.reference;
         this.orderAmount = 0;
