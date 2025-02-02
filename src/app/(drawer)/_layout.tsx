@@ -1,5 +1,5 @@
-import { DrawerContent } from "@/components";
 import { Drawer } from "expo-router/drawer";
+import { DrawerContent } from "@/components";
 import { CustomOptions } from "../../../types/navigation";
 
 export default function DrawerLayout() {

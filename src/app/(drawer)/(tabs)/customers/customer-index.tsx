@@ -7,7 +7,6 @@ import { router } from "expo-router";
 import { AppInputContainer, CustomerListItem, FloatButton } from "@/components";
 import { colors } from "@/styles/colors";
 
-//melhorar isso, componentizar pesquisa e botões em uma tela
 
 export default function CustomerIndex() {
 
@@ -16,7 +15,6 @@ export default function CustomerIndex() {
     const [search, setSearch] = useState("");
     const [isRefreshing, setRefreshing] = useState(false);
 
-    //carregue a lista aqui
     useEffect(() => {
         list()
     }, [search])

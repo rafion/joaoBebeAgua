@@ -1,4 +1,3 @@
-export * from './header/header';
 export * from './input/app-Input';
 export * from './loading/loading';
 

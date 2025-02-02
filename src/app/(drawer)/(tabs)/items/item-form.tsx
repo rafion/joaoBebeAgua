@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, Button, KeyboardAvoidingView, Platform, ScrollView, Text, View, StyleSheet } from "react-native";
+import { Alert, Button, KeyboardAvoidingView, Platform, ScrollView, View, StyleSheet } from "react-native";
 import { TextInputMask } from 'react-native-masked-text';
 
 import { AppInputContainer } from "@/components";
@@ -15,11 +15,7 @@ export default function ItemForm() {
 
     const [id, setId] = useState("")
     const [name, setName] = useState("");
-    const [price, setPrice] = useState(0); //valor sem formatacao, usado para persistir
-    // const [priceCurrency, setPriceCurrency] = useState("0"); //string com toda a formatação do preço
-
-
-
+    const [price, setPrice] = useState(0);
 
     useEffect(() => {
         if (params.id) {
@@ -36,7 +32,6 @@ export default function ItemForm() {
         setId(String(item.id));
         setName(item.name);
         setPrice(item.price);
-        //setPriceCurrency(String(item.price))
 
     }
 

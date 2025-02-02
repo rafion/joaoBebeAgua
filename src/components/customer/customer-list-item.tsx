@@ -24,8 +24,6 @@ export function CustomerListItem({ data, selectionMode, onSelect, onDelete, onEd
             + ((data.reference != "") ? (", ref.: " + data.reference) : "");
 
     }
-    //backgroundColor: pressed ? "#F28B81" : "2A2B2D" 
-
 
     return (
         <TouchableOpacity

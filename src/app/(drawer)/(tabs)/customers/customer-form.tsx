@@ -96,7 +96,6 @@ export default function CustomerForm() {
             if (!validForm()) {
                 return
             }
-            //verificar se o cliente ja existe e o id é diferente deste
 
             const response = await curtomerDao.update({
                 id: Number(id), name, city, district, streetName, streetNumber, complement, reference

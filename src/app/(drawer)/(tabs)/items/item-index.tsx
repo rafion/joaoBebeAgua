@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
+import { router } from "expo-router";
 
-
-import { router, useNavigation } from "expo-router";
 import { AppInputContainer, FloatButton, ItemListItem } from "@/components";
 import { colors } from "@/styles/colors";
 import { ItemDAO } from "@/database/itemDAO";
@@ -17,7 +16,6 @@ export default function ItemIndex() {
     const [search, setSearch] = useState("");
     const [isRefreshing, setRefreshing] = useState(false);
 
-    //carregue a lista aqui
     useEffect(() => {
 
         list();

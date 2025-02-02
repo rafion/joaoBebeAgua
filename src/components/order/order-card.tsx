@@ -1,9 +1,7 @@
 import { Order, OrderStatus } from "@/model/order";
-import { OrderItem } from "@/model/orderItem";
-import { styles } from "@/styles/styles";
 import { getFormattedCurrency } from "@/utils/format-values";
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, Text, View, StyleSheet } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 
 const timeformat: Intl.DateTimeFormatOptions = {
@@ -66,7 +64,7 @@ export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
                     <Text className="text-lg font-subtitle text-gray-400 flex-1">
                         #: {order.id}
                     </Text>
-                    {/* 12 de fev. as 13:36h */}
+
                     <Text className="text-lg font-subtitle text-gray-400" numberOfLines={1} lineBreakMode="tail">
                         {printDate(order.deliveryDate || new Date())}
 
@@ -83,11 +81,7 @@ export function OrderCard({ order, onConclude, onCancel, onDelete }: Props) {
                 {order.city &&
                     <Text className="text-base font-body text-gray-400">Cidade: {order.city}</Text>
                 }
-                {/* {order.items && (
-                    <Text className="text-base font-body text-gray-400" numberOfLines={3} lineBreakMode="tail">
-                        {printOrderItens(order)}
-                    </Text>)
-                } */}
+
                 <View>
                     {order.items.map((item, index) => (
                         <Text key={index} className="ml-4 text-lg font-subtitle text-gray-400">

@@ -28,7 +28,7 @@ export default function RootLayout() {
   }
 
   return (
-    /* se o banco não existir é criado onInit={migrateDbIfNeeded}*/
+
     <SQLiteProvider databaseName="joaoBebeAguaDb.db" onInit={migrateDbIfNeeded}>
 
       <GestureHandlerRootView style={{ flex: 1 }}>

@@ -1,19 +1,16 @@
-import { Order, OrderStatus } from "@/model/order";
 import { useEffect, useState } from "react";
 import { Alert, FlatList, View } from "react-native";
-import { OrderItem } from "@/model/orderItem";
+import { Order, OrderStatus } from "@/model/order";
+import { router } from "expo-router";
+
 import { OrderCard } from "./order-card";
 import { OrderDAO } from "@/database/orderDAO";
 import { AppInputContainer } from "../input/app-Input";
 import { MenuButton } from "../bottons/menu-button";
 import { OrderFilterButtons } from "../bottons/order-filter-buttons";
 import { FloatButton } from "../bottons/float-button";
-import { router } from "expo-router";
 
-// interface Props {
-//     searchTerms: string;
-//     filterStatus: OrderStatus;
-// }
+
 
 export function OrderList() {
 
