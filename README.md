@@ -2,6 +2,12 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+
+<div align="center">
+   <h3>Tela inicial</h3>
+<img src="https://github.com/user-attachments/assets/13b6562b-cfd6-4f34-a9da-af696865ba13" width="300px" />
+</div>
+
 ## Get started
 
 1. Install dependencies
