@@ -8,6 +8,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 <img src="https://github.com/user-attachments/assets/13b6562b-cfd6-4f34-a9da-af696865ba13" width="300px" />
 </div>
 
+<div align="center">
+   <h3>Novo Pedido</h3>
+<img src="https://github.com/user-attachments/assets/a89d6a83-d185-42bd-88b7-ea68f196bbdd" width="300px" />
+</div>
+
 ## Get started
 
 1. Install dependencies
